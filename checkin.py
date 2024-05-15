@@ -15,6 +15,7 @@ import json
 import os
 import sys
 import time
+import platform
 
 # 获取GlaDOS账号Cookie
 def get_cookies():
@@ -89,10 +90,16 @@ def checkin(cookie):
     
     return mess, time, mail
 
-
 # 执行签到任务
 def run_checkin():
     contents = []
+    
+    # 获取运行环境的信息
+    system = platform.system()
+    release = platform.release()
+    machine = platform.machine()
+    contents.append(f"运行环境：{system} {release} {machine}\n")
+    
     cookies = get_cookies()
     if not cookies:
         return ""
@@ -103,7 +110,6 @@ def run_checkin():
             continue
             
         content = f"账号：{email}\n签到结果：{ret}\n剩余天数：{remain}\n"
-        print(content)
         contents.append(content)
 
     contents_str = "".join(contents)
